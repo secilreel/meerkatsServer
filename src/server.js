@@ -3,7 +3,7 @@
 const app = require('./app');
 const { PORT } = require('./config');
 
-app.get('/api/*', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({ok: true});
 });
 
