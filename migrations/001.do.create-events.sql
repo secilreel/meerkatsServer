@@ -4,6 +4,5 @@ CREATE TABLE meerkats_events (
   details TEXT,
   meeting_time DATE,
   place TEXT,
-  total_participants INT,
   date_created TIMESTAMP DEFAULT now() NOT NULL
 );
