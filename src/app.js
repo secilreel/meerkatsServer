@@ -5,9 +5,10 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
-const { NODE_ENV } = require('./config'); 
+const { NODE_ENV } = require('./config');
+const authRouter = require('./auth/auth-router'); 
 const eventsRouter = require('./events/events-router');
-const authRouter = require('./auth/auth-router');
+const usersRouter = require('./users/users-router');
 
 const app = express();
 
@@ -22,8 +23,9 @@ app.use(helmet());
 app.use(cors());
 
 app.use(express.json());
-app.use('/api/events', eventsRouter);
 app.use('/api', authRouter);
+app.use('/api/events', eventsRouter);
+app.use('/api/users', usersRouter);
 
 app.use((req,res,next)=> {
   const authToken = req.get('Authorization');

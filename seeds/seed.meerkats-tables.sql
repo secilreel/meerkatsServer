@@ -9,20 +9,6 @@ TRUNCATE
   meerkats_events
   RESTART IDENTITY CASCADE;
 
-INSERT INTO meerkats_events (id, title, details, meeting_day, meeting_time, place)
-VALUES
-  (1, 'Pho Dinner', 'Meet me at the pho place tonight', '2019-03-19', '19:00:00', 'Pho Basil'),
-  (2, 'Ski Getaway', 'Time to rent a house in NH', '2019-03-22', '12:00:00', 'Carroll, NH'),
-  (3, 'Auction Gala', 'Let''s support the school', '2019-03-30', '18:30:00', 'Newton Shareton'),
-  (4, 'Breadmaking Practice', 'Come to our place to bake bread', '2019-03-30', '15:00:00', 'Our house'),
-  (5,'Playdate', 'Let''s take the kids to the park', '2019-03-20', '10:30:00', 'Elm Bank Reservation');
-
-ALTER SEQUENCE meerkats_events_id_seq RESTART WITH 6;
-
-COMMIT;
-
-BEGIN;
-
 INSERT INTO meerkats_users (id, user_name, full_name, password)
 VALUES
   (1, 'secil', 'Secil Reel', '$2a$12$IZfXMEVGh0yqehdlgq6l2uinSTbl3iT4ff.bjk0MpnngqRQiUDh4K'),
@@ -33,21 +19,23 @@ VALUES
 
 ALTER SEQUENCE meerkats_users_id_seq RESTART WITH 6;
 
-COMMIT;
+INSERT INTO meerkats_events (id, title, details, meeting_day, meeting_time, place, event_owner)
+VALUES
+  (1, 'Pho Dinner', 'Meet me at the pho place tonight', '2019-03-19', '19:00:00', 'Pho Basil', 1),
+  (2, 'Ski Getaway', 'Time to rent a house in NH', '2019-03-22', '12:00:00', 'Carroll, NH', 1),
+  (3, 'Auction Gala', 'Let''s support the school', '2019-03-30', '18:30:00', 'Newton Shareton',2),
+  (4, 'Breadmaking Practice', 'Come to our place to bake bread', '2019-03-30', '15:00:00', 'Our house',3),
+  (5,'Playdate', 'Let''s take the kids to the park', '2019-03-20', '10:30:00', 'Elm Bank Reservation',4);
 
-BEGIN;
+ALTER SEQUENCE meerkats_events_id_seq RESTART WITH 6;
 
 INSERT INTO meerkats_friends (user_id, friends_id)
 VALUES
 (1,3),
 (1,2),
-(3,3),
+(3,4),
 (2,4),
 (2,5);
-
-COMMIT;
-
-BEGIN;
 
 INSERT INTO meerkats_participants (user_id, events_id, attending)
 VALUES

@@ -6,14 +6,12 @@ const EventsService = require('./events-service.js');
 const { requireAuth } = require('../middleware/jwt-auth');
 
 const eventsRouter = express.Router();
-
 eventsRouter
   .route('/')
   // .all(requireAuth)
-  .get((req,res, next) => {
+  .get((req,res,next) => {
     EventsService.getAllEvents(req.app.get('db'))
       .then(events => {
-        // res.json(events)
         res.json(EventsService.serializeEvents(events));
       })
       .catch(next);
@@ -45,9 +43,10 @@ eventsRouter
   .route('/:id')
   // .all(requireAuth)
   .get((req,res)=>{
+    const db = req.app.get('db');
     let id = req.params.id;
-    let event = EventsService.getById(id);
-    res.json(EventsService.serializeEvent(event));
+    EventsService.getById(db, id)
+      .then(event=>res.json(EventsService.serializeEvent(event)));
   });
 
 module.exports = eventsRouter;

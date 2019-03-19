@@ -8,6 +8,7 @@
     "dev": "nodemon src/server.js",
     "migrate": "postgrator --config postgrator-config.js",
     "seed": "psql -U secilreel -d meerkats -f ./seeds/seed.meerkats-tables.sql",
+    "trunc": "psql -U secilreel -d meerkats -f ./seeds/trunc.meerkats-tables.sql",
     "start": "node src/server.js",
     "predeploy": "npm audit",
     "deploy": "git push heroku master"

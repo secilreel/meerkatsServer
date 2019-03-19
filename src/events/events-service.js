@@ -3,8 +3,6 @@ const xss = require('xss');
 
 const EventsService = {
   getById(db, id) {
-    console.log('database', db)
-    console.log('id',id)
     return db
       .from('meerkats_events')
       .where('id', id)
@@ -30,8 +28,7 @@ const EventsService = {
       .returning('*')
       .then(([event]) => event)
       .then(event =>{
-        console.log(event);
-        return EventsService.getById(db, event.id)
+        return EventsService.getById(db, event.id);
       });
   },
 

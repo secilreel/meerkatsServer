@@ -7,5 +7,5 @@ CREATE TABLE meerkats_users (
 
 ALTER TABLE meerkats_events
   ADD COLUMN
-    user_id INTEGER REFERENCES meerkats_users(id)
+    event_owner INTEGER REFERENCES meerkats_users(id)
     ON DELETE SET NULL;

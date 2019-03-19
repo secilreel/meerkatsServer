@@ -5,11 +5,11 @@ const UsersService ={
   getById(db, id){
     return db
       .from('meerkats_users')
-      .where('users.id', id)
+      .where('id', id)
       .first();
   },
 
-  getAllThings(db){
+  getAllUsers(db){
     return db
       .from('meerkats_users')
       .select(
@@ -17,9 +17,26 @@ const UsersService ={
       );
   },
 
-  insertUser(db, newUser)
+  insertUser(db, newUser){
+    return db
+      .insert(newUser)
+      .into('meerkats_users')
+      .returning('*')
+      .then(([user]) => user)
+      .then(user => this.getById(db, user.id));
+  },
 
+  serializeUser(user){
+    return{
+      id: user.id,
+      user_name: xss(user.user_name),
+      full_name: xss(user.full_name)
+    };
+  },
 
+  serializeUsers(users){
+    return users.map(this.serializeUser);
+  }
 };
 
 module.exports = UsersService; 
