@@ -1,7 +1,7 @@
 'use strict';
 const xss = require('xss');
 
-const UsersService ={
+const UsersService = {
   getById(db, id){
     return db
       .from('meerkats_users')
@@ -13,17 +13,9 @@ const UsersService ={
     return db
       .from('meerkats_users')
       .select(
-        'user_name'
+        'user_name',
+        'full_name'
       );
-  },
-
-  insertUser(db, newUser){
-    return db
-      .insert(newUser)
-      .into('meerkats_users')
-      .returning('*')
-      .then(([user]) => user)
-      .then(user => this.getById(db, user.id));
   },
 
   serializeUser(user){

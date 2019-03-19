@@ -17,8 +17,14 @@ const EventsService = {
         'details',
         'meeting_day',
         'meeting_time',
-        'place'
-      );
+        'place',
+        // 'user_name'
+      )
+      // .where('event_owner', 'user.id')
+      // .leftJoin(
+      //   'meerkats_users as owner',
+      //   'user.user_name'
+      // );
   },
 
   insertEvent(db, newEvent) {
@@ -40,7 +46,7 @@ const EventsService = {
       meeting_day: xss(event.meeting_day),
       meeting_time: xss(event.meeting_time),
       place: xss(event.place),
-      user_id: event.user_id
+      event_owner: xss(event.event_owner)
     };
   },
 
