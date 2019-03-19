@@ -3,7 +3,7 @@
 const app = require('./app');
 const { DB_URL, PORT } = require('./config');
 const knex = require('knex');
-console.log(DB_URL);
+
 const db = knex({
   client: 'pg',
   connection: DB_URL,

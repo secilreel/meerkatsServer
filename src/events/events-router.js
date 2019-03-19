@@ -11,26 +11,22 @@ eventsRouter
   .route('/')
   // .all(requireAuth)
   .get((req,res, next) => {
-    console.log('db')
     EventsService.getAllEvents(req.app.get('db'))
       .then(events => {
-        console.log(events)
-        res.json(events)
-        // res.json(EventsService.serializeEvent(events));
+        // res.json(events)
+        res.json(EventsService.serializeEvents(events));
       })
       .catch(next);
   })
   .post((req, res, next) => {
-    const { event_id, title, details, meeting_day, meeting_time, place, user_id} = req.body;
-    const newEvent = { event_id, title, details, meeting_day, meeting_time, place, user_id};
+    const { title, details, meeting_day, meeting_time, place, user_id} = req.body;
+    const newEvent = { title, details, meeting_day, meeting_time, place, user_id};
 
     for (const [key, value] of Object.entries(newEvent))
       if (value == null)
         return res.status(400).json({
           error: `Missing '${key}' in request body`
         });
-
-    newEvent.user_id = req.user.id;
 
     EventsService.insertEvent(
       req.app.get('db'),
@@ -43,6 +39,15 @@ eventsRouter
           .json(EventsService.serializeEvent(event));
       })
       .catch(next);
+  });
+
+eventsRouter
+  .route('/:id')
+  // .all(requireAuth)
+  .get((req,res)=>{
+    let id = req.params.id;
+    let event = EventsService.getById(id);
+    res.json(EventsService.serializeEvent(event));
   });
 
 module.exports = eventsRouter;

@@ -17,21 +17,21 @@ VALUES
   (4, 'Breadmaking Practice', 'Come to our place to bake bread', '2019-03-30', '15:00:00', 'Our house'),
   (5,'Playdate', 'Let''s take the kids to the park', '2019-03-20', '10:30:00', 'Elm Bank Reservation');
 
--- ALTER SEQUENCE meerkats_events_id_seq RESTART WITH 6;
+ALTER SEQUENCE meerkats_events_id_seq RESTART WITH 6;
 
 COMMIT;
 
 BEGIN;
 
-INSERT INTO meerkats_users (user_name, full_name, password)
+INSERT INTO meerkats_users (id, user_name, full_name, password)
 VALUES
-  ('secil', 'Secil Reel', '$2a$12$IZfXMEVGh0yqehdlgq6l2uinSTbl3iT4ff.bjk0MpnngqRQiUDh4K'),
-  ('meer', 'Meer Cat', '$2a$12$Ajg6WiaYm0E5zGv6fcznIeuikVFtxMsikKbaz2IKUqGbIU/DiTQ26'),
-  ('joe', 'Joe Cuddle', '$2a$12$T/qPNl4/qmrqZQCuH63HWuXNup38OhYA2g.qr17qK8QqeC.W9/UWe'),
-  ('jenn', 'Jenn Huddle','$2a$12$DQBgSLx2gXXgfC5l3yanKeGzkQBPuifrdsXUxMn4dBjdl2LR6oJk6'),
-  ('marry', 'Merry Marry', '$2a$12$L/3haQiZFrZDtRldNoyPSOq00iQPlFPO4rGhVbZaunXTsszhyn6ky');
+  (1, 'secil', 'Secil Reel', '$2a$12$IZfXMEVGh0yqehdlgq6l2uinSTbl3iT4ff.bjk0MpnngqRQiUDh4K'),
+  (2, 'meer', 'Meer Cat', '$2a$12$Ajg6WiaYm0E5zGv6fcznIeuikVFtxMsikKbaz2IKUqGbIU/DiTQ26'),
+  (3, 'joe', 'Joe Cuddle', '$2a$12$T/qPNl4/qmrqZQCuH63HWuXNup38OhYA2g.qr17qK8QqeC.W9/UWe'),
+  (4, 'jenn', 'Jenn Huddle','$2a$12$DQBgSLx2gXXgfC5l3yanKeGzkQBPuifrdsXUxMn4dBjdl2LR6oJk6'),
+  (5, 'marry', 'Merry Marry', '$2a$12$L/3haQiZFrZDtRldNoyPSOq00iQPlFPO4rGhVbZaunXTsszhyn6ky');
 
--- ALTER SEQUENCE meerkats_users_id_seq RESTART WITH 6;
+ALTER SEQUENCE meerkats_users_id_seq RESTART WITH 6;
 
 COMMIT;
 
@@ -49,13 +49,16 @@ COMMIT;
 
 BEGIN;
 
-INSERT INTO meerkats_participants (user_id, events_id)
+INSERT INTO meerkats_participants (user_id, events_id, attending)
 VALUES
-(1,1),
-(1,2),
-(1,5),
-(2,3),
-(2,4),
-(4,5);
+(1,1, 'coming'),
+(1,2, 'coming'),
+(1,5, 'coming'),
+(2,3, 'coming'),
+(2,4, 'coming'),
+(4,5, 'coming'),
+(3,1, 'pending'),
+(3,2, 'declined'),
+(4,3, 'pending');
 
 COMMIT;

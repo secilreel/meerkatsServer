@@ -3,9 +3,11 @@ const xss = require('xss');
 
 const EventsService = {
   getById(db, id) {
+    console.log('database', db)
+    console.log('id',id)
     return db
       .from('meerkats_events')
-      .where('event.id', id)
+      .where('id', id)
       .first();
   },
 
@@ -27,9 +29,10 @@ const EventsService = {
       .into('meerkats_events')
       .returning('*')
       .then(([event]) => event)
-      .then(event =>
-        EventsService.getById(db, event.id)
-      );
+      .then(event =>{
+        console.log(event);
+        return EventsService.getById(db, event.id)
+      });
   },
 
   serializeEvent(event) {
@@ -42,6 +45,10 @@ const EventsService = {
       place: xss(event.place),
       user_id: event.user_id
     };
+  },
+
+  serializeEvents(events){
+    return events.map(this.serializeEvent);
   }
 };
 
