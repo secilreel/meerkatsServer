@@ -45,8 +45,12 @@ eventsRouter
   .get((req,res)=>{
     const db = req.app.get('db');
     let id = req.params.id;
-    EventsService.getById(db, id)
+    EventsService.showParticipants(db, id)
       .then(event=>res.json(EventsService.serializeEvent(event)));
+  })
+  .patch((req,res) =>{
+    const db = req.app.get('db');
+    // EventsService.
   });
 
 module.exports = eventsRouter;

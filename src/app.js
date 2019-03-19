@@ -9,6 +9,7 @@ const { NODE_ENV } = require('./config');
 const authRouter = require('./auth/auth-router'); 
 const eventsRouter = require('./events/events-router');
 const usersRouter = require('./users/users-router');
+const friendsRouter = require ('./friends/friends-router');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use('/api', authRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/search', friendsRouter);
 
 app.use((req,res,next)=> {
   const authToken = req.get('Authorization');
