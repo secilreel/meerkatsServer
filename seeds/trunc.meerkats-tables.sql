@@ -1,3 +1,5 @@
+-- psql -U secilreel -d meerkats -f ./seeds/trunc.meerkats-tables.sql
+
 TRUNCATE
   meerkats_participants,
   meerkats_friends,

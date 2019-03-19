@@ -25,11 +25,11 @@ BEGIN;
 
 INSERT INTO meerkats_users (user_name, full_name, password)
 VALUES
-  ('secil', 'Secil Reel', '$2a$08$kbFByA1I931gYX5DmvoH9O5Vv8o2KCXi7JFslTM7O/Pc2rRWqY9Te'),
-  ('meer', 'Meer Cat', '$2a$08$d32c0p7OVtT9vOQwl2JZp.Ov6v45l3rWVMrJKt5vp9FEF9z5NNIpC'),
-  ('joe', 'Joe Cuddle', '$2a$08$UNPV8OsMEX/YZ1fxpJhjsevED3Rytr5U12QAKDSSmnmQV7UJxkIS2'),
-  ('jenn', 'Jenn Huddle','$2a$08$Y8qTZV9TDOXiic59h5WlTu77m3saVc7STMydxyotlK6ioWyUiLOaO'),
-  ('marry', 'Merry Marry', '$2a$08$IJrMfUW2TUELJrQy1eLqw.WmKPMCyou5IueUTanwPIJ5QxTvv/TQC');
+  ('secil', 'Secil Reel', '$2a$12$IZfXMEVGh0yqehdlgq6l2uinSTbl3iT4ff.bjk0MpnngqRQiUDh4K'),
+  ('meer', 'Meer Cat', '$2a$12$Ajg6WiaYm0E5zGv6fcznIeuikVFtxMsikKbaz2IKUqGbIU/DiTQ26'),
+  ('joe', 'Joe Cuddle', '$2a$12$T/qPNl4/qmrqZQCuH63HWuXNup38OhYA2g.qr17qK8QqeC.W9/UWe'),
+  ('jenn', 'Jenn Huddle','$2a$12$DQBgSLx2gXXgfC5l3yanKeGzkQBPuifrdsXUxMn4dBjdl2LR6oJk6'),
+  ('marry', 'Merry Marry', '$2a$12$L/3haQiZFrZDtRldNoyPSOq00iQPlFPO4rGhVbZaunXTsszhyn6ky');
 
 -- ALTER SEQUENCE meerkats_users_id_seq RESTART WITH 6;
 

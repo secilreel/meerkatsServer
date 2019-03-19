@@ -5,15 +5,20 @@ const EventsService = {
   getById(db, id) {
     return db
       .from('meerkats_events')
+      .where('event.id', id)
+      .first();
+  },
+
+  getAllThings(db){
+    return db
+      .from('meerkats_events')
       .select(
         'title',
         'details',
         'meeting_day',
         'meeting_time',
-        'place',
-        'user_id')
-      .where('event.id', id)
-      .first();
+        'place'
+        )
   },
 
   insertEvent(db, newEvent) {

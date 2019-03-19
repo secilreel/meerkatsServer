@@ -9,7 +9,14 @@ const eventsRouter = express.Router();
 
 eventsRouter
   .route('/')
-  .all(requireAuth)
+  // .all(requireAuth)
+  .get((req,res, next) => {
+    EventsService.getAllThings(req.app.get('db'))
+      .then(things => {
+        res.json(EventsService.serializeThings(things))
+      })
+      .catch(next);
+  })
   .post((req, res, next) => {
     const { event_id, title, details, meeting_day, meeting_time, place, user_id} = req.body;
     const newEvent = { event_id, title, details, meeting_day, meeting_time, place, user_id};
