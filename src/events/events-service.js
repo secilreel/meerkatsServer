@@ -9,7 +9,7 @@ const EventsService = {
       .first();
   },
 
-  getAllThings(db){
+  getAllEvents(db){
     return db
       .from('meerkats_events')
       .select(
@@ -18,7 +18,7 @@ const EventsService = {
         'meeting_day',
         'meeting_time',
         'place'
-        )
+      );
   },
 
   insertEvent(db, newEvent) {
@@ -37,8 +37,8 @@ const EventsService = {
       id: event.id,
       title: xss(event.title),
       details: xss(event.details),
-      meeting_day: xss(event.meeting.day),
-      meeting_time: xss(event.meeting.time),
+      meeting_day: xss(event.meeting_day),
+      meeting_time: xss(event.meeting_time),
       place: xss(event.place),
       user_id: event.user_id
     };
