@@ -26,17 +26,25 @@ const EventsService = {
         'meerkats_events.event_owner');
   },
 
+  deleteEvent(db, id){
+    return db
+      .from('meerkats_events')
+      .where('id', id)
+      .delete();
+  },
+
   showParticipants(db, id){
     return db
       .from('meerkats_events')
       .where('meerkats_events.id', id)
       .first()
       .select(
-        'title',
+        'meerkats_events.title',
         'details',
         'meeting_day',
         'meeting_time',
         'place',
+        'meerkats_users.user_name as owner',
         'user_name as participants',
         'meerkats_participants.attending as status'
       )
