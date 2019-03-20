@@ -9,6 +9,20 @@ const FriendsService ={
       .first();
   },
 
+  getAllFriends(db){
+    return db
+      .from('meerkats_friends')
+      .select(
+        'meerkats_users.user_name as user_name'
+      )
+      .innerJoin(
+        'meerkats_users', 
+        'meerkats_users.id', 
+        '=', 
+        'meerkats_friends.user_id'
+      );
+  },
+
   searchByUserName(query){
     return db
       .from('meerkats_users')

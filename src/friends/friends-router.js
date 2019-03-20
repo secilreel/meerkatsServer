@@ -9,6 +9,9 @@ const friendsRouter = express.Router();
 friendsRouter
   .route('/')
   // .all(requireAuth)
+  .get((req,res,next)=>{
+    FriendsService.getAllFriends
+  })
   .get((req,res,next) => {
     FriendsService.searchByUserName(req.params.query)
       .then(friend => {
