@@ -14,6 +14,7 @@ const EventsService = {
       .from('meerkats_events')
       .select(
         'title',
+        'details',
         'meeting_day',
         'meeting_time',
         'place',
@@ -44,35 +45,32 @@ const EventsService = {
         'meeting_day',
         'meeting_time',
         'place',
-        'meerkats_users.user_name as owner'
+        'meerkats_events.event_owner as owner'
       )
-      .leftJoin(
+      .innerJoin(
+        'meerkats_users', 
+        'meerkats_users.id', 
+        '=', 
+        'meerkats_events.event_owner');
+  },
+
+  showParticipant(db, id){
+    return db
+      .select('*')
+      .from('meerkats_participants')
+      .where('events_id', id)
+      .innerJoin(
         'meerkats_users', 
         'meerkats_participants.user_id', 
         '=', 
         'meerkats_users.id');
   },
 
-  showParticipants(db, id){
+  updateParticipant(db, id, status){
     return db
       .from('meerkats_events')
-      .where('meerkats_events.id', id)
-      .select(
-        'user_name as participants',
-        'meerkats_participants.attending as status'
-      )
-      .leftJoin(
-        'meerkats_participants', 
-        'meerkats_participants.events_id', 
-        '=', 
-        'meerkats_events.id');
-  },
-
-  updateEvent(db, id, participants){
-    return db
-      .from('meerkats_events')
-      .where({id})
-      .update(participants)
+      .where('id', id)
+      .update({'attending': status})
       .returning('*');
   },
 
@@ -96,13 +94,18 @@ const EventsService = {
       meeting_time: xss(event.meeting_time),
       place: xss(event.place),
       event_owner: xss(event.owner),
-      status: xss(event.status),
-      participants: xss(event.participants)
     };
   },
 
   serializeEvents(events){
     return events.map(this.serializeEvent);
+  },
+
+  serializeParticipant(participant){
+    return{
+      attending: xss(participant.attending),
+      user_name: xss(participant.user_name)
+    };
   }
 };
 

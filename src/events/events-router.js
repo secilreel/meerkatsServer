@@ -46,16 +46,7 @@ eventsRouter
     const db = req.app.get('db');
     let id = req.params.id;
     EventsService.showEventDetails(db, id)
-      .then(event =>
-        res.json(EventsService.serializeEvent(event)));
-    EventsService.showParticipants(db, id)
-      .then(event =>
-        res.json(EventsService.serializeEvent(event)));
-  })
-  .patch((req,res) =>{
-    const db = req.app.get('db');
-    EventsService.updateEvent(db, req.params.id, req.body.participants)
-      .then(event =>
+      .then(event => 
         res.json(EventsService.serializeEvent(event)));
   })
   .delete((req,res) =>{
@@ -63,6 +54,25 @@ eventsRouter
     EventsService.deleteEvent(db, req.params.id)
       .then(event => 
         res.json(EventsService.serializeEvent(event)));
+  });
+
+eventsRouter
+  .route('/:id/participants')
+  // .all(requireAuth)
+  .get((req,res)=>{
+    const db = req.app.get('db');
+    let id = req.params.id;
+    EventsService.showParticipant(db, id)
+      .then(participants => {
+        let results = participants.map(participant => EventsService.serializeParticipant(participant));
+        res.json(results);
+      });
+  })
+  .patch((req,res) =>{
+    const db = req.app.get('db');
+    EventsService.updateParticipant(db, req.params.id, req.body.participants)
+      .then(participant =>
+        res.json(EventsService.serializeParticipant(participant)));
   });
 
 module.exports = eventsRouter;
