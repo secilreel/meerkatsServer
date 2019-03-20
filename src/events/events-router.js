@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const EventsService = require('./events-service.js');
 const { requireAuth } = require('../middleware/jwt-auth');
+const participantsRouter = require('../participants/participants-router');
 
 const eventsRouter = express.Router();
 eventsRouter
@@ -52,8 +53,7 @@ eventsRouter
   .delete((req,res) =>{
     const db = req.app.get('db');
     EventsService.deleteEvent(db, req.params.id)
-      .then(event => 
-        res.json(EventsService.serializeEvent(event)));
+      .then(() => res.status(204).end());
   });
 
 eventsRouter
@@ -67,12 +67,20 @@ eventsRouter
         let results = participants.map(participant => EventsService.serializeParticipant(participant));
         res.json(results);
       });
-  })
+  });
+
+eventsRouter
+  .route('/:event_id/participants/:par_id')
+  // .all(requireAuth)
   .patch((req,res) =>{
     const db = req.app.get('db');
-    EventsService.updateParticipant(db, req.params.id, req.body.participants)
-      .then(participant =>
-        res.json(EventsService.serializeParticipant(participant)));
+    //check req.body exists and it's a valid value
+    EventsService.updateParticipant(
+      db, req.params.event_id, req.params.par_id, req.body.attending)
+      .then(([participant]) =>{
+        console.log(participant);
+        res.json(EventsService.serializeParticipant(participant));
+      });
   });
 
 module.exports = eventsRouter;

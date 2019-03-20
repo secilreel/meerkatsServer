@@ -66,11 +66,12 @@ const EventsService = {
         'meerkats_users.id');
   },
 
-  updateParticipant(db, id, status){
+  updateParticipant(db, event_id, par_id, attending){
     return db
-      .from('meerkats_events')
-      .where('id', id)
-      .update({'attending': status})
+      .from('meerkats_participants')
+      .where('events_id', event_id)
+      .where('user_id', par_id)
+      .update('attending', attending)
       .returning('*');
   },
 
@@ -102,10 +103,10 @@ const EventsService = {
   },
 
   serializeParticipant(participant){
-    return{
-      attending: xss(participant.attending),
-      user_name: xss(participant.user_name)
-    };
+    const resultObject = {};
+    if (participant.user_name) resultObject.user_name=xss(participant.user_name);
+    if (participant.attending) resultObject.attending=xss(participant.attending);
+    return resultObject;
   }
 };
 
