@@ -33,7 +33,7 @@ const EventsService = {
       .delete();
   },
 
-  showParticipants(db, id){
+  showEventDetails(db, id){
     return db
       .from('meerkats_events')
       .where('meerkats_events.id', id)
@@ -44,7 +44,20 @@ const EventsService = {
         'meeting_day',
         'meeting_time',
         'place',
-        'meerkats_users.user_name as owner',
+        'meerkats_users.user_name as owner'
+      )
+      .leftJoin(
+        'meerkats_users', 
+        'meerkats_participants.user_id', 
+        '=', 
+        'meerkats_users.id');
+  },
+
+  showParticipants(db, id){
+    return db
+      .from('meerkats_events')
+      .where('meerkats_events.id', id)
+      .select(
         'user_name as participants',
         'meerkats_participants.attending as status'
       )
@@ -52,12 +65,7 @@ const EventsService = {
         'meerkats_participants', 
         'meerkats_participants.events_id', 
         '=', 
-        'meerkats_events.id')
-      .leftJoin(
-        'meerkats_users', 
-        'meerkats_participants.user_id', 
-        '=', 
-        'meerkats_users.id');
+        'meerkats_events.id');
   },
 
   updateEvent(db, id, participants){

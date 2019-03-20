@@ -4,8 +4,9 @@ const xss = require('xss');
 const FriendsService ={
   getById(db, id){
     return db
+      .select('id as user_id', 'user_name', 'full_name')
       .from('meerkats_users')
-      .where('id', id)
+      .where('user_id', id)
       .first();
   },
 
@@ -13,13 +14,15 @@ const FriendsService ={
     return db
       .from('meerkats_friends')
       .select(
-        'meerkats_users.user_name as user_name'
+        'meerkats_friends.user_id as user_id',
+        'meerkats_users.user_name as user_name',
+        'meerkats_users.full_name as full_name'
       )
-      .innerJoin(
+      .leftJoin(
         'meerkats_users', 
         'meerkats_users.id', 
         '=', 
-        'meerkats_friends.user_id'
+        'meerkats_friends.friends_id'
       );
   },
 
@@ -30,16 +33,16 @@ const FriendsService ={
       .first();
   },
 
-  serializeUser(user){
+  serializeFriend(user){
     return {
-      id: user.id,
+      id: user.id || user.user_id,
       user_name: xss(user.user_name),
       full_name: xss(user.full_name)
     };
   },
   
-  serializeUsers(users){
-    return users.map(this.serializeUser);
+  serializeFriends(users){
+    return users.map(this.serializeFriend);
   }
 };
 

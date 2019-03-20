@@ -10,7 +10,9 @@ friendsRouter
   .route('/')
   // .all(requireAuth)
   .get((req,res,next)=>{
-    FriendsService.getAllFriends
+    FriendsService.getAllFriends(req.app.get('db'))
+      .then(friends =>
+        res.json(FriendsService.serializeFriends(friends)))
   })
   .get((req,res,next) => {
     FriendsService.searchByUserName(req.params.query)
