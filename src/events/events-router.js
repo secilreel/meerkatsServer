@@ -4,7 +4,6 @@ const express = require('express');
 const path = require('path');
 const EventsService = require('./events-service.js');
 const { requireAuth } = require('../middleware/jwt-auth');
-const participantsRouter = require('../participants/participants-router');
 
 const eventsRouter = express.Router();
 eventsRouter
@@ -18,8 +17,8 @@ eventsRouter
       .catch(next);
   })
   .post((req, res, next) => {
-    const { title, details, meeting_day, meeting_time, place, user_id} = req.body;
-    const newEvent = { title, details, meeting_day, meeting_time, place, user_id};
+    const { title, details, meeting_day, meeting_time, place, event_owner} = req.body;
+    const newEvent = { title, details, meeting_day, meeting_time, place, event_owner};
 
     for (const [key, value] of Object.entries(newEvent))
       if (value == null)

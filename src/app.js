@@ -10,7 +10,6 @@ const authRouter = require('./auth/auth-router');
 const eventsRouter = require('./events/events-router');
 const usersRouter = require('./users/users-router');
 const friendsRouter = require ('./friends/friends-router');
-const participantsRouter = require('./participants/participants-router');
 
 const app = express();
 
@@ -27,9 +26,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/api', authRouter);
 app.use('/api/events', eventsRouter);
-// app.use('/api/', participantsRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/search', friendsRouter);
+app.use('/api/friends', friendsRouter);
 
 app.use((req,res,next)=> {
   const authToken = req.get('Authorization');

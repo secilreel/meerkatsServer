@@ -2,6 +2,7 @@ CREATE TABLE meerkats_users (
   id SERIAL PRIMARY KEY,
   user_name TEXT NOT NULL UNIQUE,
   full_name TEXT NOT NULL,
+  image TEXT,
   password TEXT NOT NULL
 );
 

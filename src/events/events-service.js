@@ -13,12 +13,14 @@ const EventsService = {
     return db
       .from('meerkats_events')
       .select(
+        'meerkats_events.id',
         'title',
         'details',
         'meeting_day',
         'meeting_time',
         'place',
-        'meerkats_users.user_name as owner'
+        'meerkats_users.user_name as owner',
+        'meerkats_users.image as image'
       )
       .innerJoin(
         'meerkats_users', 
@@ -45,7 +47,8 @@ const EventsService = {
         'meeting_day',
         'meeting_time',
         'place',
-        'meerkats_events.event_owner as owner'
+        'meerkats_events.event_owner as owner',
+        'meerkats_users.image as image'
       )
       .innerJoin(
         'meerkats_users', 
@@ -95,6 +98,7 @@ const EventsService = {
       meeting_time: xss(event.meeting_time),
       place: xss(event.place),
       event_owner: xss(event.owner),
+      image: xss(event.image)
     };
   },
 
@@ -104,6 +108,7 @@ const EventsService = {
 
   serializeParticipant(participant){
     const resultObject = {};
+    resultObject.user_id=participant.user_id;
     if (participant.user_name) resultObject.user_name=xss(participant.user_name);
     if (participant.attending) resultObject.attending=xss(participant.attending);
     return resultObject;
