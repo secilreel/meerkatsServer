@@ -8,7 +8,7 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const eventsRouter = express.Router();
 eventsRouter
   .route('/')
-  // .all(requireAuth)
+  .all(requireAuth)
   .get((req,res,next) => {
     EventsService.getAllEvents(req.app.get('db'))
       .then(events => {
@@ -17,9 +17,11 @@ eventsRouter
       .catch(next);
   })
   .post((req, res, next) => {
-    const { title, details, meeting_day, meeting_time, place, event_owner} = req.body;
+    const event_owner = req.user.id;
+    const { title, details, meeting_day, meeting_time, place} = req.body;
     const newEvent = { title, details, meeting_day, meeting_time, place, event_owner};
-
+    console.log("request body", req.body);
+    console.log("event route user", req.user);
     for (const [key, value] of Object.entries(newEvent))
       if (value == null)
         return res.status(400).json({
@@ -41,7 +43,7 @@ eventsRouter
 
 eventsRouter
   .route('/:id')
-  // .all(requireAuth)
+  .all(requireAuth)
   .get((req,res)=>{
     const db = req.app.get('db');
     let id = req.params.id;
@@ -57,7 +59,7 @@ eventsRouter
 
 eventsRouter
   .route('/:id/participants')
-  // .all(requireAuth)
+  .all(requireAuth)
   .get((req,res)=>{
     const db = req.app.get('db');
     let id = req.params.id;
@@ -70,7 +72,7 @@ eventsRouter
 
 eventsRouter
   .route('/:event_id/participants/:par_id')
-  // .all(requireAuth)
+  .all(requireAuth)
   .patch((req,res) =>{
     const db = req.app.get('db');
     //check req.body exists and it's a valid value

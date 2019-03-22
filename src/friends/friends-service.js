@@ -15,7 +15,8 @@ const FriendsService ={
       .select(
         'meerkats_users.user_name as user_name',
         'meerkats_users.full_name as full_name',
-        'meerkats_users.image as image'
+        'meerkats_users.image as image',
+        'meerkats_friends.friends_id as id'
       )
       .from('meerkats_friends')
       .where('meerkats_friends.user_id',id)
@@ -36,6 +37,7 @@ const FriendsService ={
 
   serializeFriend(user){
     return {
+      id:user.id,
       user_name: xss(user.user_name),
       full_name: xss(user.full_name),
       image: user.image

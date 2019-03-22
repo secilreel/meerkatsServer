@@ -8,10 +8,11 @@ const { requireAuth } = require('../middleware/jwt-auth');
 const friendsRouter = express.Router();
 friendsRouter
   .route('/:id')
-  // .all(requireAuth)
-  .get((req,res,next)=>{
+  .all(requireAuth)
+  .get((req,res)=>{
     const db = req.app.get('db');
-    let id = req.params.id;
+    console.log('friendsRouter user', req.user);
+    let id = req.user.id;
     FriendsService.getAllFriends(db, id)
       .then(friends =>
         res.json(FriendsService.serializeFriends(friends)));
