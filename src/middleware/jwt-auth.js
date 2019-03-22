@@ -6,9 +6,9 @@ function requireAuth(req, res, next) {
   let bearerToken;
   if (!authToken.toLowerCase().startsWith('bearer ')) {
     return res.status(401).json({ error: 'Missing bearer token' });
-  }else {
+  }
+  else {
     bearerToken = authToken.slice(7, authToken.length);
-    console.log('bearerToken saved as', bearerToken);
   }
   
   try {
@@ -23,7 +23,6 @@ function requireAuth(req, res, next) {
           return res.status(401).json({ error: 'Unauthorized request' });
         }
         req.user = user;
-        console.log("jwt-auth", user);
         next();
       })
       .catch(err => {
@@ -31,7 +30,6 @@ function requireAuth(req, res, next) {
         next(err);
       });    
   } catch(error) {
-    console.log("401", error);
     res.status(401).json({ error: 'Unauthorized request' });
   }
 }

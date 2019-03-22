@@ -20,8 +20,6 @@ eventsRouter
     const event_owner = req.user.id;
     const { title, details, meeting_day, meeting_time, place} = req.body;
     const newEvent = { title, details, meeting_day, meeting_time, place, event_owner};
-    console.log("request body", req.body);
-    console.log("event route user", req.user);
     for (const [key, value] of Object.entries(newEvent))
       if (value == null)
         return res.status(400).json({
@@ -59,7 +57,7 @@ eventsRouter
 
 eventsRouter
   .route('/:id/participants')
-  .all(requireAuth)
+  // .all(requireAuth)
   .get((req,res)=>{
     const db = req.app.get('db');
     let id = req.params.id;
@@ -68,6 +66,24 @@ eventsRouter
         let results = participants.map(participant => EventsService.serializeParticipant(participant));
         res.json(results);
       });
+  })
+  .post((req, res, next) => {
+    let id = req.params.id;
+    const { user_id, attending } = req.body;
+    let participant = {user_id, events_id: id , attending};
+    console.log(participant);
+    EventsService.insertParticipant(
+      req.app.get('db'), 
+      id,
+      participant
+    )
+      .then(() => {
+        res
+          .status(201).end();
+          // .location(path.posix.join(req.originalUrl, `/${id}`))
+          // .json(EventsService.serializeEvent(event));
+      })
+      .catch(next);
   });
 
 eventsRouter
