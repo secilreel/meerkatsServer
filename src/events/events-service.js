@@ -83,7 +83,7 @@ const EventsService = {
   },
 
   insertParticipants(participants){
-    participants.map(this.insertParticipant);
+    return participants.map(this.insertParticipant);
   },
 
   updateParticipant(db, event_id, par_id, attending){
@@ -130,6 +130,10 @@ const EventsService = {
     if (participant.user_name) resultObject.user_name=xss(participant.user_name);
     if (participant.attending) resultObject.attending=xss(participant.attending);
     return resultObject;
+  },
+
+  serializeParticipants(participants){
+    return participants.map(this.serializeParticipant);
   }
 };
 
