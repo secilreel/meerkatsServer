@@ -33,6 +33,8 @@ INSERT INTO meerkats_friends (user_id, friends_id)
 VALUES
 (1,3),
 (1,2),
+(1,4),
+(1,5),
 (3,4),
 (2,4),
 (2,5);
