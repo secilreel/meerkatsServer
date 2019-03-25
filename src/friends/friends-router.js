@@ -11,7 +11,6 @@ friendsRouter
   .all(requireAuth)
   .get((req,res)=>{
     const db = req.app.get('db');
-    console.log('friendsRouter user', req.user);
     let id = req.user.id;
     FriendsService.getAllFriends(db, id)
       .then(friends =>

@@ -57,7 +57,7 @@ eventsRouter
 
 eventsRouter
   .route('/:id/participants')
-  // .all(requireAuth)
+  .all(requireAuth)
   .get((req,res)=>{
     const db = req.app.get('db');
     let id = req.params.id;
