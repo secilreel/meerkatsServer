@@ -126,6 +126,7 @@ const EventsService = {
   serializeParticipant(participant){
     const resultObject = {};
     resultObject.user_id=participant.user_id;
+    resultObject.image=participant.image;
     if (participant.user_name) resultObject.user_name=xss(participant.user_name);
     if (participant.attending) resultObject.attending=xss(participant.attending);
     return resultObject;
