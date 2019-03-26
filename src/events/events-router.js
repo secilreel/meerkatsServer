@@ -64,25 +64,27 @@ eventsRouter
     let id = req.params.id;
     EventsService.showParticipant(db, id)
       .then(participants => {
+        console.log("show participants", participants);
         let results = participants.map(participant => EventsService.serializeParticipant(participant));
         res.json(results);
       });
   })
   .post((req, res, next) => {
     let id = req.params.id;
+    const db = req.app.get('db');
+    console.log("id", id, "db", db);
     const participants = req.body;
-    console.log("participants", participants);
-    console.log("request", req.body);
+    console.log("post participants", participants);
     EventsService.insertParticipants(
-      req.app.get('db'), 
+      db, 
       id,
       participants
     )
-      .then(() => {
+      .then(participants => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${id}`))
-          .json(EventsService.serializeParticipant(participants));
+          // .location(path.posix.join(req.originalUrl, `/${id}`))
+          .json(EventsService.serializeParticipants(participants));
       })
       .catch(next);
   });

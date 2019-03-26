@@ -74,16 +74,11 @@ const EventsService = {
       .insert(newParticipant)
       .into('meerkats_participants')
       .where('events_id', id)
-      .returning('*')
-      .then(() => console.log(newParticipant));
-      // .then(() =>{
-      //   console.log(newParticipant);
-      //   return EventsService.getById(db, id);
-      // });
+      .returning('*');
   },
 
-  insertParticipants(participants){
-    return participants.map(this.insertParticipant);
+  insertParticipants(db, id, participants){
+    return Promise.all(participants.map(participant=>this.insertParticipant(db,id, participant)));
   },
 
   updateParticipant(db, event_id, par_id, attending){
