@@ -30,6 +30,7 @@ function requireAuth(req, res, next) {
       }
       return AuthService.comparePasswords(tokenPassword, user.password)
         .then(passwordsMatch => {
+          console.log("basic auth user", user);
           if (!passwordsMatch) {
             return res.status(401).json({ error: 'Unauthorized request' });
           }

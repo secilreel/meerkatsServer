@@ -51,8 +51,9 @@ eventsRouter
   })
   .delete((req,res) =>{
     const db = req.app.get('db');
+    console.log(req.params.id);
     EventsService.deleteEvent(db, req.params.id)
-      .then(() => res.status(204).end());
+      .then(() => res.json(204).end());
   });
 
 eventsRouter
@@ -95,11 +96,12 @@ eventsRouter
     const par_id = req.user.id;
     console.log("participant id", par_id);
     console.log("event_id", req.params.event_id);
+    console.log("red.body", req.body);
     //check req.body exists and it's a valid value
     EventsService.updateParticipant(
       db, req.params.event_id, par_id, req.body.attending)
-      .then(([participant]) =>{
-        console.log(participant);
+      .then((participant) =>{
+        console.log('participant', participant);
         res.json(EventsService.serializeParticipant(participant));
       });
   });

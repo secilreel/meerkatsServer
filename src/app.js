@@ -29,14 +29,6 @@ app.use('/api/events', eventsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/friends', friendsRouter);
 
-app.use((req,res,next)=> {
-  const authToken = req.get('Authorization');
-  if(!authToken || authToken.split(' ')[1] !== process.env.API_TOKEN){
-    return res.status(401).send({error: 'Unauthorized'});
-  }
-  next();
-});
-
 app.get('/', (req, res) => {
   res.send('Hello, boilerplate!');
 });
