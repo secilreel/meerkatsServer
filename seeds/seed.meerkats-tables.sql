@@ -11,7 +11,7 @@ TRUNCATE
 
 INSERT INTO meerkats_users (id, user_name, full_name, image, password)
 VALUES
-  (1, 'secil', 'Secil Reel', 'https://tinyfac.es/data/avatars/344CFC24-61FB-426C-B3D1-CAD5BCBD3209-200w.jpeg','$2a$12$IZfXMEVGh0yqehdlgq6l2uinSTbl3iT4ff.bjk0MpnngqRQiUDh4K'),
+  (1, 'demo', 'Demo MereCat', 'https://tinyfac.es/data/avatars/344CFC24-61FB-426C-B3D1-CAD5BCBD3209-200w.jpeg','$2a$12$IZfXMEVGh0yqehdlgq6l2uinSTbl3iT4ff.bjk0MpnngqRQiUDh4K'),
   (2, 'meer', 'Mere Cat','https://tinyfac.es/data/avatars/BA0CB1F2-8C79-4376-B13B-DD5FB8772537-200w.jpeg', '$2a$12$Ajg6WiaYm0E5zGv6fcznIeuikVFtxMsikKbaz2IKUqGbIU/DiTQ26'),
   (3, 'joe', 'Joe Cuddle','https://tinyfac.es/data/avatars/FBEBF655-4886-455A-A4A4-D62B77DD419B-200w.jpeg', '$2a$12$T/qPNl4/qmrqZQCuH63HWuXNup38OhYA2g.qr17qK8QqeC.W9/UWe'),
   (4, 'chat', 'Chat Huddle','https://tinyfac.es/data/avatars/1C4EEDC2-FE9C-40B3-A2C9-A038873EE692-200w.jpeg','$2a$12$DQBgSLx2gXXgfC5l3yanKeGzkQBPuifrdsXUxMn4dBjdl2LR6oJk6'),

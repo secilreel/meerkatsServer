@@ -51,7 +51,6 @@ eventsRouter
   })
   .delete((req,res) =>{
     const db = req.app.get('db');
-    console.log(req.params.id);
     EventsService.deleteEvent(db, req.params.id)
       .then(() => res.json(204).end());
   });
@@ -64,15 +63,13 @@ eventsRouter
     let id = req.params.id;
     EventsService.showParticipant(db, id)
       .then(participants => {
-        console.log("show participants", participants);
         let results = participants.map(participant => EventsService.serializeParticipant(participant));
         res.json(results);
       });
   })
   .post((req, res, next) => {
-    let id = req.params.id;
+    let id = parseInt(req.params.id, 10);
     const db = req.app.get('db');
-    console.log("id", id, "db", db);
     const participants = req.body;
     console.log("post participants", participants);
     EventsService.insertParticipants(
@@ -96,14 +93,10 @@ eventsRouter
   .patch((req,res) =>{
     const db = req.app.get('db');
     const par_id = req.user.id;
-    console.log("participant id", par_id);
-    console.log("event_id", req.params.event_id);
-    console.log("red.body", req.body);
     //check req.body exists and it's a valid value
     EventsService.updateParticipant(
       db, req.params.event_id, par_id, req.body.attending)
       .then((participant) =>{
-        console.log('participant', participant);
         res.json(EventsService.serializeParticipant(participant));
       });
   });
