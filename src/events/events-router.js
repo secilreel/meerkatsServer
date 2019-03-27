@@ -72,18 +72,36 @@ eventsRouter
     const db = req.app.get('db');
     const participants = req.body;
     console.log("post participants", participants);
-    EventsService.insertParticipants(
-      db, 
-      id,
-      participants
-    )
-      .then(participants => {
-        res
-          .status(201)
+    console.log("participants.length", participants.length);
+    if(participants.length===1){
+      EventsService.insertParticipant(
+        db, 
+        id,
+        participants
+      )
+        .then(participant => {
+          res
+            .status(201)
           // .location(path.posix.join(req.originalUrl, `/${id}`))
-          .json(EventsService.serializeParticipants(participants));
-      })
-      .catch(next);
+            .json(EventsService.serializeParticipants(participant));
+        })
+        .catch(next);
+  
+    }
+    else {
+      EventsService.insertParticipants(
+        db, 
+        id,
+        participants
+      )
+        .then(participants => {
+          res
+            .status(201)
+          // .location(path.posix.join(req.originalUrl, `/${id}`))
+            .json(EventsService.serializeParticipants(participants));
+        })
+        .catch(next);
+    }
   });
 
 
