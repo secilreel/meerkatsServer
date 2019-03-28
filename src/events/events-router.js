@@ -72,8 +72,8 @@ eventsRouter
     const db = req.app.get('db');
     const participants = req.body;
     console.log("post participants", participants);
-    console.log("participants.length", participants.length);
-    if(participants.length===1){
+    console.log("participants.length", !(participants.length));
+    if(!participants.length){
       EventsService.insertParticipant(
         db, 
         id,

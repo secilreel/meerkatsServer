@@ -4,7 +4,7 @@ const { expect } = require('chai');
 const knex = require('knex');
 const app = require('../src/app');
 
-describe('App', () => {
+describe.skip('App', () => {
   let db;
   before('make knex instance',() =>{
     db = knex({
@@ -16,9 +16,9 @@ describe('App', () => {
 
   after('disconnect from db', () => db.destroy());
   
-  before('clean the table', () => db('bookmarks').truncate());
+  before('clean the table', () => helpers.cleanTables(db));
 
-  afterEach('delete bookmarks', ()=> db('bookmarks').truncate());
+  afterEach('delete events', ()=> helpers.cleanTables(db));
 
   context('Given there are data in the database', ()=>{
 
