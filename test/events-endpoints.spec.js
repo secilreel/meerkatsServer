@@ -21,98 +21,51 @@ describe.only('Events Endpoints', function() {
 
   after('disconnect from db', () => db.destroy())
 
-  before('cleanup', () => {
-    db.raw('truncate table meerkats_users cascade')
-    db.raw('truncate table meerkats_events cascade')
-  })
+  before('cleanup', () => helpers.cleanTables(db))
 
-  afterEach('cleanup', () => db('meerkats_participants').truncate())
+  afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe.only(`GET /api/events`, () => {
+  describe(`GET /api/events`, () => {
 
     context('Given there are events in the database', () => {
       beforeEach('insert events', () =>
-        helpers.seedEventsTable(
+        helpers.seedUsersTable(
           db,
           testUsers,
-          testEvents,
-          testParticipants,
         )
       )
 
       it('responds with 200 and all of the events', () => {
-        const expectedEvents = testEvents.map(event =>
-          helpers.makeExpectedEvent(
-            testUsers,
-            event,
-            testParticipants,
-          )
-        )
+
+        const testEvent = testEvents[0]
+
         return supertest(app)
-          .get('/api/things')
-          .expect(200, expectedEvents)
-      })
-    })
-
-    context(`Given an XSS attack thing`, () => {
-      const testUser = helpers.makeUsersArray()[1]
-      const {
-        maliciousEvent,
-        expectedEvent,
-      } = helpers.makeMaliciousEvent(testUser)
-
-      beforeEach('insert malicious event', () => {
-        return helpers.seedMaliciousEvent(
-          db,
-          testUser,
-          maliciousEvent,
-        )
-      })
-
-      it('removes XSS attack content', () => {
-        return supertest(app)
-          .get(`/api/events`)
+          .post('/api/login')
+          .set('Accept', 'application/json')
+          .send({user_name: 'meerkat', password: 'pass1'})
+          .expect('Content-Type', /json/)
+          .then(res => {
+              return supertest(app)
+              .get('/api/events')
+              .set('Accept', 'application/json')
+              .expect('Content-Type', /json/)
+              .auth('bearer', res.authToken)
+          })
           .expect(200)
           .expect(res => {
-            expect(res.body[0].title).to.eql(expectedEvent.title)
-            expect(res.body[0].details).to.eql(expectedEvent.details)
-            expect(res.body[0].place).to.eql(expectedEvent.place)
+            expect(res.body).to.have.property('id')
+            expect(res.body.title).to.eql(testEvents[0].title)
+            expect(res.body.details).to.eql(testEvents[0].details)
+            expect(res.body.meeting_day).to.eql(testEvents[0].meeting_day)
+            expect(res.body.meeting_time).to.eql(testEvents[0].meeting_time)
+            expect(res.body.place).to.eql(testEvents[0].place)
+            expect(res.body.event_).to.eql(testEvents[0].meeting_day)
+            expect(res.headers.location).to.eql(`/api/events/${res.body.id}`)
+            const expectedDate = new Date().toLocaleString()
+            const actualDate = new Date(res.body.date_created).toLocaleString()
+            expect(actualDate).to.eql(expectedDate)
           })
       })
     })
-  })
-
-  describe.skip(`GET /api/events/:event_id`, () => {
-
-    context('Given there are events in the database', () => {
-      beforeEach('insert events', () =>
-        helpers.seedEventsTables(
-          db,
-          testUsers,
-          testEvents,
-          testParticipants,
-        )
-      )
-
-      it('responds with 200 and the specified event', () => {
-        const eventId = 2
-        const expectedEvent = helpers.makeExpectedEvent(
-          testUsers,
-          testEvents[eventId - 1],
-          testParticipants,
-        )
-
-        return supertest(app)
-          .get(`/api/events/${eventId}`)
-          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-          .expect(200)
-          .expect((res) => {
-            expect(res.body.title).to.eql(expectedEvent.title)
-            const actualDate = new Date(res.body.date_created).toLocaleString();
-            const expectedDate = new Date(expectedThing.date_created).toLocaleString('en', {timeZone: 'UTC'})
-          expect(actualDate).to.equal(expectedDate);
-      })
-    })
-  })
 })
 })

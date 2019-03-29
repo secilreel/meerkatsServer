@@ -93,7 +93,7 @@ function makeParticipantsArray(users, events) {
 
 function makeExpectedEvent(users, event) {
   const user = users
-    .find(user => user.id === thing.user_id)
+    .find(user => user.id === event.event_owner)
 
   return {
     id: event.id,
@@ -167,9 +167,11 @@ function makeEventsFixtures() {
 }
 
 function cleanTables(db) {
-  return db.raw(
-    `TRUNCATE meerkats_participants IF EXISTS`
-  )
+  return Promise.all([
+    db.raw('truncate meerkats_participants'),
+    db.raw('truncate meerkats_users cascade'),
+    db.raw('truncate meerkats_events cascade')
+  ])
 }
 
 

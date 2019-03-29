@@ -19,11 +19,9 @@ describe.skip('Auth Endpoints', function() {
 
   after('disconnect from db', () => db.destroy())
 
-  before('clean tables', () =>  db.raw('truncate table meerkats_users cascade'))
+  before('clean tables', () => helpers.cleanTables())
 
-  afterEach('cleanup', () =>{
-    db('meerkats_participants').truncate()
-  } )
+  afterEach('cleanup', () => helpers.cleanTables())
 
   context(`POST /api/login`, () => {
    
