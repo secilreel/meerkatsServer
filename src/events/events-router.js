@@ -107,7 +107,6 @@ eventsRouter
   .patch((req,res) =>{
     const db = req.app.get('db');
     const par_id = req.user.id;
-    //check req.body exists and it's a valid value
     EventsService.updateParticipant(
       db, req.params.event_id, par_id, req.body.attending)
       .then((participant) =>{

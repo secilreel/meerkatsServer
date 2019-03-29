@@ -9,7 +9,7 @@ const usersRouter = express.Router();
 
 usersRouter
   .route('/')
-  // .all(requireAuth)
+  .all(requireAuth)
   .get((req,res,next) => {
     UsersService.getAllUsers(req.app.get('db'))
       .then(users => {
@@ -20,7 +20,7 @@ usersRouter
 
 usersRouter
   .route('/:id')
-  // .all(requireAuth)
+  .all(requireAuth)
   .get((req,res) => {
     const db = req.app.get('db');
     let id = req.params.id;
@@ -37,9 +37,9 @@ usersRouter
         return res.status(400).json({
           error: `Missing '${field}' in request body`
         });
-    // const passwordError = UsersService.validatePassword(password);
-    // if(passwordError)
-    //   return res.status(400).json({error: passwordError});
+    const passwordError = UsersService.validatePassword(password);
+    if(passwordError)
+      return res.status(400).json({error: passwordError});
   
     UsersService.hasUserWithUserName(req.app.get('db'), user_name)
       .then(hasUserWithUserName => {
