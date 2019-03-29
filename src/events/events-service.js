@@ -70,9 +70,7 @@ const EventsService = {
   },
 
   insertParticipant(db, id, newParticipant) {
-    console.log('participant events id', typeof id, id);
     return db
-      // .insert(newParticipant)
       .insert({user_id: newParticipant.user_id, events_id: id, attending: newParticipant.attending})
       .into('meerkats_participants')
       .where('events_id', id)
@@ -80,8 +78,6 @@ const EventsService = {
   },
 
   insertParticipants(db, id, participants){
-    console.log("function participants", participants);
-    console.log('participants events id',id);
     return Promise.all(participants
       .map(participant=>this.insertParticipant(db,id, participant)));
   },

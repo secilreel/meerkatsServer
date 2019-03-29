@@ -3,12 +3,13 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.skip('Events Endpoints', function() {
+describe.only('Participants Endpoints', function() {
   let db
 
   const {
     testEvents,
     testUsers,
+    testParticipants
   } = helpers.makeEventsFixtures()
 
   before('make knex instance', () => {
@@ -21,16 +22,19 @@ describe.skip('Events Endpoints', function() {
 
   after('disconnect from db', () => db.destroy())
 
-  before('cleanup', () => helpers.cleanTables(db))
+  before('clean tables', () => {
+    db.raw('truncate table meerkats_users cascade')
+  })
 
-  afterEach('cleanup', () => helpers.cleanTables(db))
+  afterEach('cleanup', () => db.raw('truncate table meerkats_users cascade'))
 
-  describe.skip(`POST /api/events`, () => {
+  context(`POST /api/events`, () => {
+    
     beforeEach('insert events', () =>
       helpers.seedEventsTable(
         db,
         testUsers,
-        testThings,
+        testEvents,
       )
     )
 
@@ -73,28 +77,5 @@ describe.skip('Events Endpoints', function() {
             })
         )
     })
-
-    const requiredFields = ['attending', 'user_id', 'events_id']
-
-    requiredFields.forEach(field => {
-      const testEvent = testEvents[0]
-      const testUser = testUsers[0]
-      const newParticipant = {
-        user_id: testUser.id,
-        events_id: testEvent.id,
-        attending: 'coming',
-      }
-
-      it(`responds with 400 and an error message when the '${field}' is missing`, () => {
-        delete newReview[field]
-
-        return supertest(app)
-          .post('/api/events')
-          .send(newEvent)
-          .expect(400, {
-            error: `Missing '${field}' in request body`,
-          })
-      })
     })
   })
-})
