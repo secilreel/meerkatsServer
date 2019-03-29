@@ -71,8 +71,6 @@ eventsRouter
     let id = parseInt(req.params.id, 10);
     const db = req.app.get('db');
     const participants = req.body;
-    console.log("post participants", participants);
-    console.log("participants.length", !(participants.length));
     if(!participants.length){
       EventsService.insertParticipant(
         db, 
@@ -82,7 +80,6 @@ eventsRouter
         .then(participant => {
           res
             .status(201)
-          // .location(path.posix.join(req.originalUrl, `/${id}`))
             .json(EventsService.serializeParticipants(participant));
         })
         .catch(next);
@@ -97,7 +94,6 @@ eventsRouter
         .then(participants => {
           res
             .status(201)
-          // .location(path.posix.join(req.originalUrl, `/${id}`))
             .json(EventsService.serializeParticipants(participants));
         })
         .catch(next);

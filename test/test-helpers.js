@@ -206,7 +206,7 @@ function seedParticipantsTable(db, users, events) {
   }
 
 function seedMaliciousEvent(db, user, event) {
-  return seedUsers(db, [user])
+  return seedUsersTable(db, [user])
     .then(() =>
       db
         .into('meerkats_eventss')

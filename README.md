@@ -1,16 +1,16 @@
-# Express Boilerplate!
+# Meerkats -- Event-planning Simplified for Friends
 
-This is a boilerplate project used for starting new projects with node!
+This app solves the issue of clutter in event-planning among friends. Premised on that users would like to create, share, and update their attendance quickly within their social circles, it helps organizers keep the event at the center of their event-planning.
 
-## Set up
+This code creates the server side of the app. This back-end server is built with Node.js, express, and Postgres. It employs some of the best practices of web-development such as JWT, unit-testing, and integration-testing. The database is already seeded with some sample data as seen in the seeds folder.  
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+In order to take a closer peek at how the application works, you can login to the live site:
+https://secilreel-meerkats-app.now.sh/
+with the demo 
+user: secil
+password: pass1.
 
-1. Clone this repository to your local machine with `git clone BOILERPLATE-URL NEW-PROJECTS-NAME && cd $_` - &&`cd` into the cloned repository
-2. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-3. Install the node dependencies `npm install`
-4. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-5. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+Developers who want to contribute to this project, you can clone the code and add new features such as creating groups from friends, creating an admin account, and more. I have already left some breadcrumbs: you can see that friends and user endpoints  is up and running. Code along and send me a merge request. Let's build a clean and efficient events planning to give a chance to our users to enjoy their friends!
 
 ## Scripts
 
@@ -19,7 +19,3 @@ Start the application `npm start`
 Start nodemon for the application `npm run dev`
 
 Run the tests `npm test`
-
-## Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.

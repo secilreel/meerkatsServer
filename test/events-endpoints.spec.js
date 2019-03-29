@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.skip('Events Endpoints', function() {
+describe.only('Events Endpoints', function() {
   let db
 
   const {
@@ -21,11 +21,14 @@ describe.skip('Events Endpoints', function() {
 
   after('disconnect from db', () => db.destroy())
 
-  before('cleanup', () => db.raw('truncate table meerkats_users cascade'))
+  before('cleanup', () => {
+    db.raw('truncate table meerkats_users cascade')
+    db.raw('truncate table meerkats_events cascade')
+  })
 
   afterEach('cleanup', () => db('meerkats_participants').truncate())
 
-  describe.skip(`GET /api/events`, () => {
+  describe.only(`GET /api/events`, () => {
 
     context('Given there are events in the database', () => {
       beforeEach('insert events', () =>
@@ -62,7 +65,7 @@ describe.skip('Events Endpoints', function() {
         return helpers.seedMaliciousEvent(
           db,
           testUser,
-          maliciousThing,
+          maliciousEvent,
         )
       })
 
