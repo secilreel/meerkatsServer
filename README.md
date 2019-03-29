@@ -6,8 +6,8 @@ This code creates the server side of the app. This back-end server is built with
 
 In order to take a closer peek at how the application works, you can login to the live site:
 https://secilreel-meerkats-app.now.sh/
-with the demo 
-user: secil
+with the demo account.
+username: secil
 password: pass1.
 
 Developers who want to contribute to this project, you can clone the code and add new features such as creating groups from friends, creating an admin account, and more. I have already left some breadcrumbs: you can see that friends and user endpoints  is up and running. Code along and send me a merge request. Let's build a clean and efficient events planning to give a chance to our users to enjoy their friends!
